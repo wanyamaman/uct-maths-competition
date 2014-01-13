@@ -37,7 +37,7 @@ function validateForm(doc)
 {
   var individuals = document.getElementsByClassName('single');	//# of individual student first names
   var pairs = document.getElementsByClassName('double');		//# of paired students
-
+  
   //prevent submission of empty forms
   if (blankForm())
 	{return false;}
@@ -80,36 +80,32 @@ function validateForm(doc)
  *** NO# of INVIGILATORS VALIDATION **
  *************************************/ 
 	var count =0;													// number of students
-	var invig = document.getElementsByClassName('invig');			// 10 invigilator fields
-	var numOfInvig =0;
 	
 	// count the number of students	
-	for (var j=0; j<individuals.length; j++)
-	{
+	for (var j=0; j<individuals.length; j++){
 		if (individuals[j].value != '')
-		{ count++;}
+		{ count++;}													//count by single students
 	}
 	
 	for (var k=0; k<pairs.length; k++)
-	{ count += pairs[k].options[pairs[k].selectedIndex].value*2; }
+	{ count += pairs[k].options[pairs[k].selectedIndex].value*2; }	//count the pairs
 	
 	// prompt user to add invigilator
-	if (count ==75)
-	{
-		//check for 2nd invigilator
-		if(invig[1].value =='')
-		{
-			invig[1].style.background = 'Yellow';
-			window.scrollTo(100,500);
-			alert("Reminder: A minimum of two invigilators are required for 75 students!");
-			return false;
-		}
-		invig[1].style.background = 'White';
-	}
-/*********************
-*** ALL TESTS PAST ***
-*********************/	
-   return true;
+	if (count ==75 && enforceInvigilator()){
+		return false; }
+	// validate invigilator names
+	if (!invigilatorCheck()){
+		window.scrollTo(100;500);
+		alert("Please provide correct invigilator information.");
+		return false;
+		} 
+	
+	
+	
+/***********************
+*** ALL TESTS PASSED ***
+************************/	
+   return false;
 }
 
 function blankForm()
@@ -144,4 +140,36 @@ function blankForm()
 		return false;
 }
 
+/*********************************************************
+*** ENFORCE COMPULSORY 2nd INVIGILATOR FOR 75 STUDENTS ***
+*********************************************************/
+function enforceInvigilator()
+{
+	var invig = document.getElementsByClassName('invig');			// 10 invigilator (first name) fields 
+	//check for 2nd invigilator
+	if(invig[1].value =='')
+	{
+		invig[1].style.background = 'Yellow';
+		window.scrollTo(100,500);
+		alert("Reminder: A minimum of two invigilators are required for 75 students.");
+		return true;	//enforcement needed	
+	}
+	// clear previously highlighted names
+	invig[1].style.background = 'White';
+	return false;	// enforcement not needed
+}
+
+/*************************************
+*** VERIFY INVIGILATOR NAME FIELDS ***
+**************************************/
+function invigilatorCheck() {
+	var iTable = document.getElementById('invigTable');
+	var secnd = iTable.rows(2);
+// work in progress	
+}
+/*
+function phoneCheck(){
+// phone number validation
+}
+*/
 
